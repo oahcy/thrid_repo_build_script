@@ -1,0 +1,4 @@
+{
+  "CMAKE_LIBRARY_PATH" : "{OUTPUT_PATH}/ogg/lib",
+  "CMAKE_INCLUDE_PATH" : "{OUTPUT_PATH}/ogg/include"
+}

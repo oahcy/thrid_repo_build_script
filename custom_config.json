@@ -1,0 +1,100 @@
+{
+  "dst_path":"/home/yangchao/code/thrid_part",
+  "packages":[
+    {
+      "name" : "libuv",
+      "type" : "git",
+      "path" : "git@github.com:libuv/libuv.git",
+      "commit_id" : "v1.41.0",
+      "build_type" : "cmake"
+    },
+    {
+      "name" : "ogg",
+      "type" : "url",
+      "path" : "https://downloads.xiph.org/releases/ogg/libogg-1.3.5.zip",
+      "subdir" : "libogg-1.3.5",
+      "build_type" : "cmake"
+    },
+    {
+      "name" : "sqlite",
+      "type" : "git",
+      "path" : "git@github.com:sqlite/sqlite.git",
+      "commit_id" : "version-3.36.0",
+      "build_type" : "configure"
+    },
+    {
+      "name" : "curl",
+      "type" : "git",
+      "path" : "git@github.com:curl/curl.git",
+      "commit_id" : "curl-7_79_0",
+      "build_type" : "cmake"
+    },
+    {
+      "name" : "openal-soft",
+      "type" : "git",
+      "path" : "git@github.com:kcat/openal-soft.git",
+      "commit_id" : "1.21.1",
+      "build_type" : "cmake"
+    },
+    {
+      "name" : "libwebp",
+      "type" : "git",
+      "path" : "git@github.com:webmproject/libwebp.git",
+      "commit_id" : "1.21.1",
+      "build_type" : "cmake"
+    },
+    {
+      "name" : "openssl",
+      "type" : "git",
+      "path" : "git@github.com:openssl/openssl.git",
+      "commit_id" : "openssl-3.0.0",
+      "build_type" : "configure",
+      "before_compile" : "script/openssl_check.sh"
+    },
+    {
+      "name" : "libwebsockets",
+      "type" : "git",
+      "path" : "git@github.com:warmcat/libwebsockets.git",
+      "commit_id" : "v4.3.0",
+      "build_type" : "cmake",
+      "cmake_params_file" : "script/libwebsockets_cmake_params.txt"
+    },
+    {
+      "name" : "vorbis",
+      "type" : "url",
+      "path" : "https://downloads.xiph.org/releases/vorbis/libvorbis-1.3.7.zip",
+      "subdir" : "libvorbis-1.3.7",
+      "build_type" : "cmake",
+      "env_set" : "script/ogg_env.json"
+    },
+    {
+      "name" : "libz",
+      "type" : "url",
+      "path" : "http://www.zlib.net/fossils/zlib-1.2.11.tar.gz",
+      "subdir" : "zlib-1.2.11",
+      "build_type" : "cmake"
+    },
+    {
+      "name" : "libpng",
+      "type" : "url",
+      "path" : "https://download.sourceforge.net/libpng/libpng-1.6.37.tar.gz",
+      "subdir" : "libpng-1.6.37",
+      "build_type" : "cmake",
+      "env_set" : "script/libpng_env.json"
+    },
+    {
+      "name" : "mpg123",
+      "type" : "url",
+      "path" : "http://mpg123.org/download/mpg123-1.29.0.tar.bz2",
+      "subdir" : "mpg123-1.29.0",
+      "build_type" : "configure"
+    },
+    {
+      "name" : "jpeg",
+      "type" : "url",
+      "path" : "http://www.ijg.org/files/jpegsrc.v9d.tar.gz",
+      "subdir" : "jpeg-9d",
+      "build_type" : "configure"
+    }
+  ]
+}

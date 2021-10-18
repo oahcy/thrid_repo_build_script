@@ -1,0 +1,4 @@
+{
+  "CMAKE_LIBRARY_PATH" : "{OUTPUT_PATH}/libz/lib",
+  "CMAKE_INCLUDE_PATH" : "{OUTPUT_PATH}/libz/include"
+}

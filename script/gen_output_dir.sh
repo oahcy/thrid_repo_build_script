@@ -1,7 +1,7 @@
 #!/bin/sh
 
-target_dir="/home/yangchao/code/thrid_part/output"
-dst_dir="/home/yangchao/code/thrid_part/dst_output"
+target_dir="{OUTPUT_PATH}"
+dst_dir="{OUTPUT_PATH}/../dst_output"
 
 include_dir=${dst_dir}/include
 lib_dir=${dst_dir}/lib

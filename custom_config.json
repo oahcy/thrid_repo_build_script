@@ -1,5 +1,6 @@
 {
-  "dst_path":"/home/yangchao/code/thrid_part",
+  "dst_path":"/home/yang/code/thrid_part",
+  "use_clang":true,
   "packages":[
     {
       "name" : "libuv",
@@ -11,7 +12,7 @@
     {
       "name" : "ogg",
       "type" : "url",
-      "path" : "https://downloads.xiph.org/releases/ogg/libogg-1.3.5.zip",
+      "path" : "http://downloads.xiph.org/releases/ogg/libogg-1.3.5.zip",
       "subdir" : "libogg-1.3.5",
       "build_type" : "cmake"
     },
@@ -62,7 +63,7 @@
     {
       "name" : "vorbis",
       "type" : "url",
-      "path" : "https://downloads.xiph.org/releases/vorbis/libvorbis-1.3.7.zip",
+      "path" : "http://downloads.xiph.org/releases/vorbis/libvorbis-1.3.7.zip",
       "subdir" : "libvorbis-1.3.7",
       "build_type" : "cmake",
       "env_set" : "script/ogg_env.json"
@@ -77,7 +78,7 @@
     {
       "name" : "libpng",
       "type" : "url",
-      "path" : "https://download.sourceforge.net/libpng/libpng-1.6.37.tar.gz",
+      "path" : "http://download.sourceforge.net/libpng/libpng-1.6.37.tar.gz",
       "subdir" : "libpng-1.6.37",
       "build_type" : "cmake",
       "env_set" : "script/libpng_env.json"
@@ -87,14 +88,16 @@
       "type" : "url",
       "path" : "http://mpg123.org/download/mpg123-1.29.0.tar.bz2",
       "subdir" : "mpg123-1.29.0",
-      "build_type" : "configure"
+      "build_type" : "configure",
+      "use_clang" : false
     },
     {
       "name" : "jpeg",
       "type" : "url",
       "path" : "http://www.ijg.org/files/jpegsrc.v9d.tar.gz",
       "subdir" : "jpeg-9d",
-      "build_type" : "configure"
+      "build_type" : "configure",
+      "use_clang" : false
     }
   ]
 }

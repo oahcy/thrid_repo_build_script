@@ -141,14 +141,21 @@ function Build(repe_path, config) {
   const dst_bld_path = path.join(repe_path, "bld");
   if (!fs.existsSync(dst_bld_path)) fs.mkdirSync(dst_bld_path,{recursive: true});
   if (config.build_type == "configure") {
+    if (config.use_clang) {
+      user_envs.AddEnv({"CC": "/usr/bin/clang"});
+    }
     BuildByCOnfigure(dst_bld_path, path.join(repe_path, "configure"), config);
+    user_envs.RemoveEnv("CC");
   }else if (config.build_type == "cmake") {
     var cmake_params = "";
     if (config.cmake_params_file) {
       const cmake_params_file_path = path.join(config.work_path, config.cmake_params_file);
       cmake_params = fs.readFileSync(cmake_params_file_path).toString();
     }
-    RunCommand("cmake -S%s -B%s -DCMAKE_INSTALL_PREFIX:PATH=%s %s %s", repe_path, dst_bld_path, config.output_path,cmake_shared_libs, cmake_params);
+    if (config.use_clang) {
+      cmake_params = cmake_params + " -DCMAKE_C_COMPILER=clang-3.8 -DCMAKE_CXX_COMPILER=clang++-3.8 "
+    }
+    RunCommand("cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -S%s -B%s -DCMAKE_INSTALL_PREFIX:PATH=%s %s %s", repe_path, dst_bld_path, config.output_path,cmake_shared_libs, cmake_params);
     path_opt.Push(dst_bld_path);
     RunCommand("make");
     RunCommand("make install");
@@ -183,6 +190,9 @@ function RunByConfig(file_path) {
 
     v.output_path = path.join(output_path, v.name);
     v.work_path = work_path;
+    if (v.use_clang == undefined) {
+      v.use_clang = config_obj.use_clang;
+    }
 
     if (fs.existsSync(v.output_path)) {
       console.log(util.format("pass : %s, you can delete this dir for recompile.", v.output_path));

@@ -170,7 +170,7 @@ function RunByConfig(file_path) {
   user_envs.AddEnv({"THIRD_PART_OUTPUT_DIR" : output_path});
 
   //replace script tmp
-  ReplaceScriptTmp(["{OUTPUT_DIR}"], output_path);
+  ReplaceScriptTmp([/\{OUTPUT_PATH\}/g], output_path);
 
   if (!fs.existsSync(dst_path)) fs.mkdirSync(dst_path,{recursive: true});
   if (!fs.existsSync(downlaod_dst_path)) fs.mkdirSync(downlaod_dst_path,{recursive: true});

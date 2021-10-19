@@ -153,7 +153,7 @@ function Build(repe_path, config) {
       cmake_params = fs.readFileSync(cmake_params_file_path).toString();
     }
     if (config.use_clang) {
-      cmake_params = cmake_params + " -DCMAKE_C_COMPILER=clang-3.8 -DCMAKE_CXX_COMPILER=clang++-3.8 "
+      cmake_params = cmake_params + " -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ "
     }
     RunCommand("cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -S%s -B%s -DCMAKE_INSTALL_PREFIX:PATH=%s %s %s", repe_path, dst_bld_path, config.output_path,cmake_shared_libs, cmake_params);
     path_opt.Push(dst_bld_path);

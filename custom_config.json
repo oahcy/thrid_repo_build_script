@@ -76,6 +76,13 @@
       "build_type" : "cmake"
     },
     {
+      "name" : "sdl2",
+      "type" : "url",
+      "path" : "http://www.libsdl.org/release/SDL2-2.0.16.tar.gz",
+      "subdir" : "SDL2-2.0.16",
+      "build_type" : "cmake"
+    },
+    {
       "name" : "libpng",
       "type" : "url",
       "path" : "http://download.sourceforge.net/libpng/libpng-1.6.37.tar.gz",

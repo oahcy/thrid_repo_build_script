@@ -1,5 +1,5 @@
 {
-  "dst_path":"/home/yang/code/thrid_part",
+  "dst_path":"/home/yangchao/code/thrid_part",
   "use_clang":true,
   "packages":[
     {
@@ -105,6 +105,21 @@
       "subdir" : "jpeg-9d",
       "build_type" : "configure",
       "use_clang" : false
+    },
+    {
+      "name" : "tbb",
+      "type" : "git",
+      "path" : "git@github.com:wjakob/tbb.git",
+      "commit_id" : "9e219e24fe223b299783200f217e9d27790a87b0",
+      "build_type" : "cmake"
+    },
+    {
+      "name" : "glslang",
+      "type" : "git",
+      "path" : "git@github.com:YunHsiao/glslang.git",
+      "commit_id" : "11.4.0",
+      "build_type" : "cmake",
+      "cmake_params_file" : "script/glslang_cmake_params.txt"
     }
   ]
 }

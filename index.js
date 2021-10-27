@@ -121,30 +121,28 @@ function BuildByCOnfigure(bld_path, configure_path, config) {
   path_opt.Pop();
 }
 
-function Build(repe_path, config) {
+function Build(bld_path, config) {
   //
   if (config.before_compile) {
-    path_opt.Push(repe_path);
+    path_opt.Push(config.repe_path);
     const shell_path = path.join(config.work_path, config.before_compile);
     RunCommand(shell_path);
     path_opt.Pop();
   }
   if (config.env_set) {
-    path_opt.Push(repe_path);
     const env_path = path.join(config.work_path, config.env_set);
     const env_path_str = fs.readFileSync(env_path).toString();
     const env_obj = JSON.parse(env_path_str);
     user_envs.AddEnv(env_obj);
-    path_opt.Pop();
   }
   //
-  const dst_bld_path = path.join(repe_path, "bld");
+  const dst_bld_path = bld_path;
   if (!fs.existsSync(dst_bld_path)) fs.mkdirSync(dst_bld_path,{recursive: true});
   if (config.build_type == "configure") {
     if (config.use_clang) {
       user_envs.AddEnv({"CC": "/usr/bin/clang"});
     }
-    BuildByCOnfigure(dst_bld_path, path.join(repe_path, "configure"), config);
+    BuildByCOnfigure(dst_bld_path, path.join(config.repe_path, "configure"), config);
     user_envs.RemoveEnv("CC");
   }else if (config.build_type == "cmake") {
     var cmake_params = "";
@@ -155,7 +153,7 @@ function Build(repe_path, config) {
     if (config.use_clang) {
       cmake_params = cmake_params + " -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ "
     }
-    RunCommand("cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -S%s -B%s -DCMAKE_INSTALL_PREFIX:PATH=%s %s %s", repe_path, dst_bld_path, config.output_path,cmake_shared_libs, cmake_params);
+    RunCommand("cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -S%s -B%s -DCMAKE_INSTALL_PREFIX:PATH=%s %s %s", config.repe_path, dst_bld_path, config.output_path,cmake_shared_libs, cmake_params);
     path_opt.Push(dst_bld_path);
     RunCommand("make");
     RunCommand("make install");
@@ -172,6 +170,7 @@ function RunByConfig(file_path) {
   //2, get dst path
   const dst_path = config_obj.dst_path;
   const downlaod_dst_path = path.join(dst_path, "downlaod");
+  const bld_dst_path = path.join(dst_path, "bld");
   const output_path = path.join(dst_path, "output");
 
   user_envs.AddEnv({"THIRD_PART_OUTPUT_DIR" : output_path});
@@ -190,6 +189,7 @@ function RunByConfig(file_path) {
 
     v.output_path = path.join(output_path, v.name);
     v.work_path = work_path;
+    v.bld_path = path.join(bld_dst_path, v.name);
     if (v.use_clang == undefined) {
       v.use_clang = config_obj.use_clang;
     }
@@ -202,11 +202,11 @@ function RunByConfig(file_path) {
       if (v.path) {
         //get code
         RunCommand('git clone %s', v.path);
-        const repe_path = path.join(dst_path, v.name);
-        RunCommand("git -C %s reset --hard %s", repe_path, v.commit_id);
+        v.repe_path = path.join(dst_path, v.name);
+        RunCommand("git -C %s reset --hard %s", v.repe_path, v.commit_id);
 
         //compile
-        Build(repe_path, v);
+        Build(v.bld_path, v);
         //cpy dst file
       }
     } else if (v.type == "url") {
@@ -219,9 +219,9 @@ function RunByConfig(file_path) {
         path_opt.Pop();
       }
       UnExtWithSuitableFormat(local_path, ext_path);
-      const repe_path = path.join(ext_path, v.subdir);
+      v.repe_path = path.join(ext_path, v.subdir);
 
-      Build(repe_path, v);
+      Build(v.bld_path, v);
     }
   });
 }

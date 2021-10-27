@@ -74,6 +74,9 @@ function CommandRecord() {
   this.PassBy = () => {
     return true;
   }
+  this.PassDownLoad = () => {
+    return true;
+  }
 }
 
 function Env(){
@@ -257,10 +260,11 @@ function RunByConfig(file_path) {
     if (v.type == "git") {
       if (v.path) {
         //get code
-        RunCommand('git clone %s', v.path);
-        v.repe_path = path.join(dst_path, v.name);
-        RunCommand("git -C %s reset --hard %s", v.repe_path, v.commit_id);
-
+          v.repe_path = path.join(dst_path, v.name);
+          if (!command_recorder.PassDownLoad()) {
+          RunCommand('git clone %s', v.path);
+          RunCommand("git -C %s reset --hard %s", v.repe_path, v.commit_id);
+        }
         //compile
         Build(v.bld_path, v);
         //cpy dst file
@@ -269,15 +273,17 @@ function RunByConfig(file_path) {
       const ext_path = path.join(dst_path, v.name);
       const file_name = v.path.substring(v.path.lastIndexOf('/') + 1);
       const local_path = path.join(downlaod_dst_path, file_name);
-      if (!fs.existsSync(local_path)) {
-        path_opt.Push(downlaod_dst_path);
-        RunCommand("wget %s", v.path);
-        path_opt.Pop();
-      }
-      UnExtWithSuitableFormat(local_path, ext_path);
-      v.repe_path = path.join(ext_path, v.subdir);
+      if (!command_recorder.PassDownLoad()) {
+          if (!fs.existsSync(local_path)) {
+            path_opt.Push(downlaod_dst_path);
+            RunCommand("wget %s", v.path);
+            path_opt.Pop();
+          }
+          UnExtWithSuitableFormat(local_path, ext_path);
+        }
+        v.repe_path = path.join(ext_path, v.subdir);
 
-      Build(v.bld_path, v);
+        Build(v.bld_path, v);
     }
     command_recorder.AddNote(v.name + " stop");
   });

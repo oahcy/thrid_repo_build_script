@@ -110,9 +110,9 @@ cd /home/yc/code/thrid_repo_build_script
 echo libz stop
 echo sdl2 start ...
 mkdir -p  ${THIRD_SOURCE_DIR}/bld/sdl2
-cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -S${THIRD_SOURCE_DIR}/sdl2/SDL2-2.0.16 -B${THIRD_SOURCE_DIR}/bld/sdl2 -DCMAKE_INSTALL_PREFIX:PATH=${THIRD_SOURCE_DIR}/output/sdl2   -DCMAKE_TOOLCHAIN_FILE=${THIRD_SOURCE_DIR}/qnx2.cmake 
 cd ${THIRD_SOURCE_DIR}/bld/sdl2
-make
+${THIRD_SOURCE_DIR}/sdl2/SDL2-2.0.16/configure --prefix=${THIRD_SOURCE_DIR}/output/sdl2 --host=x86_64-nto-qnx --enable-audio=false --enable-dependency-tracking=false
+make V=1
 make install
 cd /home/yc/code/thrid_repo_build_script
 echo sdl2 stop

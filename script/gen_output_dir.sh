@@ -1,7 +1,7 @@
 #!/bin/sh
 
-target_dir="{OUTPUT_PATH}"
-dst_dir="{OUTPUT_PATH}/../dst_output"
+target_dir="/home/yangchao/code/thrid_part/output"
+dst_dir="/home/yangchao/code/thrid_part/output/../dst_output"
 
 include_dir=${dst_dir}/include
 lib_dir=${dst_dir}/lib
@@ -20,17 +20,19 @@ do
         echo $file 是目录
         include_dst=${include_dir}/$(basename $file)
         mkdir -p ${include_dst}
+        lib_dst=${lib_dir}/$(basename $file)
+        mkdir -p ${lib_dst}
         if test -d ${file}/include
         then
           cp -r ${file}/include/* ${include_dst}
         fi
         if test -d ${file}/lib
         then
-          cp -r ${file}/lib/* ${lib_dir}
+          cp -r ${file}/lib/* ${lib_dst}
         fi
         if test -d ${file}/lib64
         then
-          cp -r ${file}/lib64/* ${lib_dir}
+          cp -r ${file}/lib64/* ${lib_dst}
         fi
     fi
 done

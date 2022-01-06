@@ -5,6 +5,11 @@ const fs = require('fs');
 const path = require('path')
 var process = require("process");
 
+var g_config = {
+  cfg_pass_download : false,
+  cfg_pass_bld : false,
+}
+
 //config
 const cmake_shared_libs = ""//"-DBUILD_SHARED_LIBS=ON -DBUILD_STATIC_LIBS=OFF -DBUILD_TESTS=OFF";
 const configure_shared_libs = "";
@@ -72,10 +77,10 @@ function CommandRecord() {
     return this;
   }
   this.PassBy = () => {
-    return true;
+    return g_config.cfg_pass_bld;
   }
   this.PassDownLoad = () => {
-    return true;
+    return g_config.cfg_pass_download;
   }
 }
 
@@ -152,7 +157,7 @@ function UnExtWithSuitableFormat(file, out_dir) {
 function BuildByCOnfigure(bld_path, configure_path, config) {
   path_opt.Push(bld_path);
   if (!command_recorder.AddCommand("%s --prefix=%s %s", configure_path, config.output_path, configure_shared_libs).PassBy()) {
-    RunCommand("%s --prefix=%s %s", configure_path, config.output_path, configure_shared_libs);
+    RunCommand("%s --prefix=%s %s %s", configure_path, config.output_path, configure_shared_libs, config.config_params);
   }
 
   if (config.after_build) {
@@ -199,6 +204,10 @@ function Build(bld_path, config) {
     if (config.cmake_params_file) {
       const cmake_params_file_path = path.join(config.work_path, config.cmake_params_file);
       cmake_params = fs.readFileSync(cmake_params_file_path).toString();
+    }
+    if (config.config_params) {
+      cmake_params += " ";
+      cmake_params += config.config_params;
     }
     if (config.use_clang) {
       cmake_params = cmake_params + " -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ "
@@ -288,6 +297,7 @@ function RunByConfig(file_path) {
     command_recorder.AddNote(v.name + " stop");
   });
   command_recorder.SaveCmd("cmd.sh");
+  console.log("end!");
 }
 
 RunByConfig("custom_config.json");

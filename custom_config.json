@@ -1,5 +1,5 @@
 {
-  "dst_path":"/home/yangchao/code/thrid_part",
+  "dst_path":"/home/yc/code/thrid_part_test",
   "use_clang":true,
   "packages":[
     {
@@ -28,7 +28,9 @@
       "type" : "git",
       "path" : "git@github.com:curl/curl.git",
       "commit_id" : "curl-7_79_0",
-      "build_type" : "cmake"
+      "build_type" : "cmake",
+      "config_params" : "-DBUILD_SHARED_LIBS=OFF",
+      "cmake_params_file" : "script/libcurl_params.txt"
     },
     {
       "name" : "openal-soft",
@@ -48,15 +50,16 @@
       "name" : "openssl",
       "type" : "git",
       "path" : "git@github.com:openssl/openssl.git",
-      "commit_id" : "openssl-3.0.0",
+      "commit_id" : "OpenSSL_1_1_1k",
       "build_type" : "configure",
-      "before_compile" : "script/openssl_check.sh"
+      "before_compile" : "script/openssl_check.sh",
+      "config_params" : "linux-x86_64-clang"
     },
     {
       "name" : "libwebsockets",
       "type" : "git",
       "path" : "git@github.com:warmcat/libwebsockets.git",
-      "commit_id" : "v4.3.0",
+      "commit_id" : "v2.4.2",
       "build_type" : "cmake",
       "cmake_params_file" : "script/libwebsockets_cmake_params.txt"
     },

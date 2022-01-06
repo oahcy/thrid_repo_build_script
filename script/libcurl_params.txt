@@ -1,1 +1,1 @@
--DOPENSSL_INCLUDE_DIR=/home/yc/code/thrid_part_test/output/openssl/include 
+-DOPENSSL_INCLUDE_DIR={OUTPUT_PATH}/openssl/include  -DOPENSSL_ROOT_DIR={OUTPUT_PATH}/openssl -DOPENSSL_LIBRARIES={OUTPUT_PATH}/openssl/lib
